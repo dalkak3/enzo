@@ -4,7 +4,7 @@ import { z } from "../../deps/zod.ts";
 import { scriptSchema } from "./Script.ts";
 import { objectSchema } from "./Object_.ts";
 
-export const variableSchema = z.object({
+export const variableSchema = z.strictObject({
   name: z.string(),
   variableType: z.string(),
   id: z.string(),
@@ -19,28 +19,28 @@ export const variableSchema = z.object({
   isCloud: z.boolean(),
   object: z.string().nullable(),
   array: z.array(
-    z.object({
+    z.strictObject({
       data: z.string(),
     }),
   ).optional(),
 });
 
-export const messageSchema = z.object({
+export const messageSchema = z.strictObject({
   name: z.string(),
   id: z.string(),
 });
 
-export const sceneSchema = z.object({
+export const sceneSchema = z.strictObject({
   name: z.string(),
   id: z.string(),
 });
 
-export const functionSchema = z.object({
+export const functionSchema = z.strictObject({
   id: z.string(),
   type: z.union([z.literal("normal"), z.literal("value")]),
   localVariables: z
     .array(
-      z.object({
+      z.strictObject({
         name: z.string(),
         value: z.number(),
         id: z.string(),
@@ -51,7 +51,7 @@ export const functionSchema = z.object({
   content: scriptSchema,
 });
 
-export const projectSchema = z.object({
+export const projectSchema = z.strictObject({
   speed: z.number(),
   objects: z.array(objectSchema),
   variables: z.array(variableSchema),

@@ -3,16 +3,16 @@ import { z } from "../../deps/zod.ts";
 
 import { scriptSchema } from "./Script.ts";
 
-export const pictureSchema = z.object({
+export const pictureSchema = z.strictObject({
   id: z.string(),
   name: z.string(),
-  dimension: z.object({
+  dimension: z.strictObject({
     width: z.number(),
     height: z.number(),
     scaleX: z.number(),
     scaleY: z.number(),
   }),
-  scale: z.object({
+  scale: z.strictObject({
     type: z.number(),
     default: z.number(),
   }).optional(),
@@ -21,7 +21,7 @@ export const pictureSchema = z.object({
   filename: z.string().optional(),
 });
 
-export const soundSchema = z.object({
+export const soundSchema = z.strictObject({
   id: z.string(),
   name: z.string(),
   duration: z.number(),
@@ -30,7 +30,7 @@ export const soundSchema = z.object({
   ext: z.string().optional(),
 });
 
-export const objectSchema = z.object({
+export const objectSchema = z.strictObject({
   id: z.string(),
   name: z.string(),
   text: z.string().optional(),
@@ -40,7 +40,7 @@ export const objectSchema = z.object({
   active: z.boolean().optional(),
   lock: z.boolean(),
   rotateMethod: z.string(),
-  entity: z.object({
+  entity: z.strictObject({
     rotation: z.number(),
     direction: z.number(),
     x: z.number(),
@@ -62,7 +62,7 @@ export const objectSchema = z.object({
     strike: z.boolean().optional(),
   }),
   script: scriptSchema,
-  sprite: z.object({
+  sprite: z.strictObject({
     pictures: z.array(pictureSchema),
     sounds: z.array(soundSchema),
   }),

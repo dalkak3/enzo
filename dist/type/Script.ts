@@ -3,7 +3,7 @@ import { z } from "../../deps/zod.ts";
 import { type Block } from "./../../src/type/Script.ts";
 
 export const blockSchema: z.ZodSchema<Block> = z.lazy(() =>
-  z.object({
+  z.strictObject({
     id: z.string(),
     x: z.number(),
     y: z.number(),
@@ -22,7 +22,7 @@ export const blockSchema: z.ZodSchema<Block> = z.lazy(() =>
   }),
 );
 
-const commentSchema = z.object({
+const commentSchema = z.strictObject({
   id: z.string(),
   x: z.number(),
   y: z.number(),
