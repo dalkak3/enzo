@@ -2,39 +2,39 @@ import { z } from "../../deps/zod.ts"
 
 interface Block {
     id: string
-    x: number
-    y: number
+    x?: number
+    y?: number
     type: string
     params: (Block | number | string | null)[]
     statements?: (Block[] | undefined)[]
-    movable: null
-    deletable: false | 1
-    emphasized: boolean
-    readOnly: boolean | null
-    copyable: boolean
-    assemble: boolean
-    extensions: []
+    movable?: null
+    deletable?: false | 1
+    emphasized?: boolean
+    readOnly?: boolean | null
+    copyable?: boolean
+    assemble?: boolean
+    extensions?: []
 }
 
 export const blockSchema: z.ZodSchema<Block> = z.lazy(() =>
     z.strictObject({
         id: z.string(),
-        x: z.number(),
-        y: z.number(),
-        type: z.string(),
+        x: z.number().optional(),
+        y: z.number().optional(),
+        type: z.string().refine(x => x != "comment"),
         params: z.array(
             z.union([blockSchema, z.number(), z.string()]).nullable(),
         ),
         statements: z
             .array(z.union([z.array(blockSchema), z.undefined()]))
             .optional(),
-        movable: z.null(),
-        deletable: z.union([z.literal(1), z.literal(false)]),
-        emphasized: z.boolean(),
-        readOnly: z.union([z.boolean(), z.null()]),
-        copyable: z.boolean(),
-        assemble: z.boolean(),
-        extensions: z.tuple([]),
+        movable: z.null().optional(),
+        deletable: z.union([z.literal(1), z.literal(false)]).optional(),
+        emphasized: z.boolean().optional(),
+        readOnly: z.union([z.boolean(), z.null()]).optional(),
+        copyable: z.boolean().optional(),
+        assemble: z.boolean().optional(),
+        extensions: z.tuple([]).optional(),
     })
 )
 
@@ -55,7 +55,9 @@ const commentSchema = z.strictObject({
 })
 
 const scriptSchema_ = z.array(
-    z.array(z.union([blockSchema, commentSchema])),
+    z.array(
+        z.union([blockSchema, commentSchema])
+    ),
 )
 
 export const scriptSchema = z.string().pipe(

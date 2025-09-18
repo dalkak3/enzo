@@ -23,7 +23,7 @@ export const variableSchema = z.strictObject({
         }),
     ).optional(),
     isRealTime: z.literal(false),
-    cloudDate: z.literal(false),
+    cloudDate: z.literal(false).optional(),
 })
 
 export const messageSchema = z.strictObject({
@@ -38,7 +38,9 @@ export const sceneSchema = z.strictObject({
 
 export const functionSchema = z.strictObject({
     id: z.string(),
-    type: z.union([z.literal("normal"), z.literal("value")]),
+    type: z
+        .union([z.literal("normal"), z.literal("value")])
+        .optional(),
     localVariables: z
         .array(
             z.strictObject({
@@ -48,12 +50,19 @@ export const functionSchema = z.strictObject({
             }),
         )
         .optional(),
-    useLocalVariables: z.boolean(),
+    useLocalVariables: z.boolean().optional(),
     content: scriptSchema,
+    fieldNames: z.array(z.never()).optional(),
 })
 
 export const projectSchema = z.strictObject({
-    speed: z.number(),
+    id: z.string().optional(),
+    updated: z.iso.datetime().optional(),
+    name: z.string().optional(),
+    thumb: z.string().regex(/^uploads\/thumb\/[0-9a-f]{4}\/[0-9a-f]{24}\.png$/).optional(),
+    cloudVariable: z.string().optional(),
+
+    speed: z.number().optional(),
     objects: z.array(objectSchema),
     variables: z.array(variableSchema),
     messages: z.array(messageSchema),
@@ -64,10 +73,10 @@ export const projectSchema = z.strictObject({
         menuWidth: z.literal(280).optional(),
         canvasWidth: z.number(),
         object: z.string(),
-    }),
-    expansionBlocks: z.array(z.never()),
-    aiUtilizeBlocks: z.array(z.never()),
-    hardwareLiteBlocks: z.array(z.never()),
-    externalModules: z.array(z.never()),
-    externalModulesLite: z.array(z.never()),
+    }).optional(),
+    expansionBlocks: z.array(z.never()).optional(),
+    aiUtilizeBlocks: z.array(z.never()).optional(),
+    hardwareLiteBlocks: z.array(z.never()).optional(),
+    externalModules: z.array(z.never()).optional(),
+    externalModulesLite: z.array(z.never()).optional(),
 })
