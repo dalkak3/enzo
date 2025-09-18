@@ -1,5 +1,7 @@
 import { z } from "../../deps/zod.ts"
 
+import { entryId } from "./util.ts"
+
 interface Block {
     id: string
     x?: number
@@ -18,7 +20,7 @@ interface Block {
 
 export const blockSchema: z.ZodSchema<Block> = z.lazy(() =>
     z.strictObject({
-        id: z.string(),
+        id: entryId,
         x: z.number().optional(),
         y: z.number().optional(),
         type: z.string().refine(x => x != "comment"),
@@ -39,7 +41,7 @@ export const blockSchema: z.ZodSchema<Block> = z.lazy(() =>
 )
 
 const commentSchema = z.strictObject({
-    id: z.string(),
+    id: entryId,
     x: z.number(),
     y: z.number(),
     width: z.number(),

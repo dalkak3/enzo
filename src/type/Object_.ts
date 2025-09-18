@@ -1,9 +1,10 @@
 import { z } from "../../deps/zod.ts"
 
 import { scriptSchema } from "./Script.ts"
+import { entryId } from "./util.ts"
 
 export const pictureSchema = z.strictObject({
-    id: z.string(),
+    id: entryId,
     name: z.string(),
     dimension: z.strictObject({
         width: z.number(),
@@ -25,7 +26,7 @@ export const pictureSchema = z.strictObject({
 })
 
 export const soundSchema = z.strictObject({
-    id: z.string(),
+    id: entryId,
     name: z.string(),
     duration: z.number(),
     fileurl: z.string().optional(),
@@ -34,7 +35,7 @@ export const soundSchema = z.strictObject({
 })
 
 export const objectSchema = z.strictObject({
-    id: z.string(),
+    id: entryId,
     name: z.string(),
     text: z.string().optional(),
     order: z.number().optional(),
@@ -70,6 +71,6 @@ export const objectSchema = z.strictObject({
         pictures: z.array(pictureSchema),
         sounds: z.array(soundSchema),
     }),
-    selectedPictureId: z.string().optional(),
-    selectedSoundId: z.string().optional(),
+    selectedPictureId: entryId.optional(),
+    selectedSoundId: entryId.optional(),
 })

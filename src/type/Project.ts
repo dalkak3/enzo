@@ -2,11 +2,12 @@ import { z } from "../../deps/zod.ts"
 
 import { scriptSchema } from "./Script.ts"
 import { objectSchema } from "./Object_.ts"
+import { entryId } from "./util.ts"
 
 export const variableSchema = z.strictObject({
     name: z.string(),
     variableType: z.string(),
-    id: z.string(),
+    id: entryId,
     value: z.union([z.string(), z.number()]).optional(),
     minValue: z.number().optional(),
     maxValue: z.number().optional(),
@@ -28,16 +29,16 @@ export const variableSchema = z.strictObject({
 
 export const messageSchema = z.strictObject({
     name: z.string(),
-    id: z.string(),
+    id: entryId,
 })
 
 export const sceneSchema = z.strictObject({
     name: z.string(),
-    id: z.string(),
+    id: entryId,
 })
 
 export const functionSchema = z.strictObject({
-    id: z.string(),
+    id: entryId,
     type: z
         .union([z.literal("normal"), z.literal("value")])
         .optional(),
@@ -46,7 +47,7 @@ export const functionSchema = z.strictObject({
             z.strictObject({
                 name: z.string(),
                 value: z.number(),
-                id: z.string(),
+                id: z.string().regex(/[0-9a-z]{4}_[0-9a-z]{4}/),
             }),
         )
         .optional(),
