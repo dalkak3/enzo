@@ -23,6 +23,8 @@ export const variableSchema = z.strictObject({
       data: z.string(),
     }),
   ).optional(),
+  isRealTime: z.literal(false),
+  cloudDate: z.literal(false),
 });
 
 export const messageSchema = z.strictObject({
@@ -58,4 +60,15 @@ export const projectSchema = z.strictObject({
   messages: z.array(messageSchema),
   functions: z.array(functionSchema),
   scenes: z.array(sceneSchema),
+  tables: z.array(z.never()),
+  interface: z.object({
+    menuWidth: z.literal(280),
+    canvasWidth: z.literal(480),
+    object: z.string(),
+  }),
+  expansionBlocks: z.array(z.never()),
+  aiUtilizeBlocks: z.array(z.never()),
+  hardwareLiteBlocks: z.array(z.never()),
+  externalModules: z.array(z.never()),
+  externalModulesLite: z.array(z.never()),
 });
