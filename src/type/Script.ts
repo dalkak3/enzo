@@ -6,7 +6,7 @@ export interface Block {
     params: (Block | number | string | null)[]
     statements?: (Block[] | undefined)[]
     movable: null
-    deletable: 1
+    deletable: false | 1
     emphasized: boolean
     readOnly: null
     copyable: boolean

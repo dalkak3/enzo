@@ -13,7 +13,7 @@ export const blockSchema: z.ZodSchema<Block> = z.lazy(() =>
       .array(z.union([z.array(blockSchema), z.undefined()]))
       .optional(),
     movable: z.null(),
-    deletable: z.literal(1),
+    deletable: z.union([z.literal(1), z.literal(false)]),
     emphasized: z.boolean(),
     readOnly: z.null(),
     copyable: z.boolean(),
@@ -29,7 +29,7 @@ const commentSchema = z.object({
   width: z.number(),
   height: z.number(),
   value: z.string(),
-  readOnly: z.boolean(),
+  readOnly: z.null(),
   visible: z.boolean(),
   display: z.boolean(),
   movable: z.boolean(),
@@ -38,6 +38,20 @@ const commentSchema = z.object({
   type: z.literal("comment"),
 });
 
-export const scriptSchema = z.array(
+const scriptSchema_ = z.array(
   z.array(z.union([blockSchema, commentSchema])),
+);
+
+export const scriptSchema = z.string().pipe(
+  z.preprocess((input, ctx) => {
+    try {
+      return JSON.parse(input)
+    } catch {
+      ctx.issues.push({
+        code: "custom",
+        message: "Invalid JSON",
+        input,
+      })
+    }
+  }, scriptSchema_)
 );
