@@ -62,8 +62,8 @@ export const projectSchema = z.strictObject({
   scenes: z.array(sceneSchema),
   tables: z.array(z.never()),
   interface: z.object({
-    menuWidth: z.literal(280),
-    canvasWidth: z.literal(480),
+    menuWidth: z.literal(280).optional(),
+    canvasWidth: z.number(),
     object: z.string(),
   }),
   expansionBlocks: z.array(z.never()),

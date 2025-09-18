@@ -9,8 +9,8 @@ export const pictureSchema = z.strictObject({
   dimension: z.strictObject({
     width: z.number(),
     height: z.number(),
-    scaleX: z.number(),
-    scaleY: z.number(),
+    scaleX: z.number().optional(),
+    scaleY: z.number().optional(),
   }),
   scale: z.strictObject({
     type: z.number(),
@@ -19,6 +19,7 @@ export const pictureSchema = z.strictObject({
   imageType: z.string().optional(),
   fileurl: z.string().optional(),
   filename: z.string().optional(),
+  thumbUrl: z.string().optional(),
 });
 
 export const soundSchema = z.strictObject({

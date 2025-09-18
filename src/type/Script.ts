@@ -8,7 +8,7 @@ export interface Block {
     movable: null
     deletable: false | 1
     emphasized: boolean
-    readOnly: null
+    readOnly: boolean | null
     copyable: boolean
     assemble: boolean
     extensions: []
