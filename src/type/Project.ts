@@ -56,7 +56,7 @@ export const functionSchema = z.strictObject({
 })
 
 export const projectSchema = z.strictObject({
-    id: z.string().optional(),
+    id: z.hex().length(24).optional(),
     updated: z.iso.datetime().optional(),
     name: z.string().optional(),
     thumb: z.string().regex(/^uploads\/thumb\/[0-9a-f]{4}\/[0-9a-f]{24}\.png$/).optional(),
