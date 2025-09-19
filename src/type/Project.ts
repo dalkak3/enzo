@@ -51,7 +51,7 @@ export const functionSchema = z.strictObject({
             z.strictObject({
                 name: z.string(),
                 value: z.number(),
-                id: z.string().regex(/[0-9a-z]{4}_[0-9a-z]{4}/),
+                id: z.string().regex(/^[0-9a-z]{4}_[0-9a-z]{4}$/),
             }),
         )
         .optional(),
