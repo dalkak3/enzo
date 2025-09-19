@@ -6,7 +6,12 @@ import { entryId } from "./util.ts"
 
 export const variableSchema = z.strictObject({
     name: z.string(),
-    variableType: z.string(),
+    variableType: z.enum([
+        "variable",
+        "list",
+        "timer",
+        "answer",
+    ]),
     id: entryId,
     value: z.union([z.string(), z.number()]).optional(),
     minValue: z.number().optional(),
