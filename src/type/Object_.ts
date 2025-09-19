@@ -39,7 +39,7 @@ export const objectSchema = z.strictObject({
     name: z.string(),
     text: z.string().optional(),
     order: z.number().optional(),
-    objectType: z.string(),
+    objectType: z.enum(["sprite", "textBox"]),
     scene: z.string(),
     active: z.boolean().optional(),
     lock: z.boolean(),
