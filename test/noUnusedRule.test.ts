@@ -20,10 +20,6 @@ const walk =
     if (type == "object") {
         const schema = schema_ as z.ZodObject
 
-        Object.fromEntries(Object.entries(schema.shape).map(([k, v]) =>
-            [k, walk(v, depth+1)]
-        ))
-
         return Object.keys(schema.shape)
             .map(k => schema.omit({ [k]: true }))
     }
@@ -36,13 +32,31 @@ const walk =
     else if (type == "array") {
         const schema = schema_ as z.ZodArray
         
-        return walk(schema.unwrap() as z.ZodType, depth+0) 
+        return walk(schema.unwrap() as z.ZodType, depth+1) 
             .map(x => z.array(x))
+    } else if (type == "union") {
+        const schema = schema_ as z.ZodUnion
+
+        schema.options
+            .flatMap(option => walk(option as z.ZodType, depth+1))
+        
+        return [schema]
+    }
+    else if (type == "pipe") {
+        const schema = schema_ as z.ZodPipe
+        
+        if (!["transform", "string"].includes((schema.in as z.ZodType).type)) {
+            // if .in is ZodObject we should walk that too, maybe
+            throw "yagni"
+        }
+        
+        return walk(schema.out as z.ZodType, depth+1) 
+            .map(x => z.pipe(schema.in, x))
     }
     else {
         return [schema_]
     }
 }
 
-walk(projectSchema)
+console.log(walk(projectSchema).length)
 console.log(test(projectSchema))
