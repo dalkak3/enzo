@@ -2,7 +2,7 @@ import { z } from "../../deps/zod.ts"
 
 import { scriptSchema } from "./Script.ts"
 import { objectSchema } from "./Object_.ts"
-import { entryId } from "./util.ts"
+import { entryId, jsonString } from "./util.ts"
 
 export const variableSchema = z.strictObject({
     name: z.string(),
@@ -60,7 +60,7 @@ export const functionSchema = z.strictObject({
         )
         .optional(),
     useLocalVariables: z.boolean().optional(),
-    content: scriptSchema,
+    content: jsonString(scriptSchema),
     fieldNames: z.array(z.never()).optional(),
 })
 

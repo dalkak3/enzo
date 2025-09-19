@@ -1,7 +1,7 @@
 import { z } from "../../deps/zod.ts"
 
 import { scriptSchema } from "./Script.ts"
-import { entryId } from "./util.ts"
+import { entryId, jsonString } from "./util.ts"
 
 const filename = z.string().regex(/^[0-9a-z]{32}$/)
 
@@ -66,7 +66,7 @@ export const objectSchema = z.strictObject({
         text: z.string().optional(),
         fontSize: z.number().optional(),
     }),
-    script: scriptSchema,
+    script: jsonString(scriptSchema),
     sprite: z.strictObject({
         pictures: z.array(pictureSchema),
         sounds: z.array(soundSchema),

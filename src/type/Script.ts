@@ -57,22 +57,8 @@ const commentSchema = z.strictObject({
     type: z.literal("comment"),
 })
 
-const scriptSchema_ = z.array(
+export const scriptSchema = z.array(
     z.array(
         z.union([blockSchema, commentSchema])
     ),
-)
-
-export const scriptSchema = z.string().pipe(
-    z.preprocess((input, ctx) => {
-        try {
-            return JSON.parse(input)
-        } catch {
-            ctx.issues.push({
-                code: "custom",
-                message: "Invalid JSON",
-                input,
-            })
-        }
-    }, scriptSchema_),
 )
