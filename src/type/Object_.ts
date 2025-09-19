@@ -14,13 +14,7 @@ export const pictureSchema = z.strictObject({
         scaleX: z.number().min(0).optional(),
         scaleY: z.number().min(0).optional(),
     }),
-    scale: z.union([
-        z.strictObject({
-            type: z.number(),
-            default: z.number(),
-        }),
-        z.number(),
-    ]).optional(),
+    scale: z.number().optional(),
     imageType: z.enum(["png", "svg"]).optional(),
     fileurl: z.string().optional(),
     filename: filename.optional(),
