@@ -88,8 +88,8 @@ export const projectSchema = z.strictObject({
     name: z.string().optional(),
     thumb: z.string().regex(/^\/?uploads\/thumb\/[0-9a-f]{4}\/[0-9a-f]{24}\.png$/).optional(),
     cloudVariable: z.union([
-        z.string(),
-        z.array(z.any()), // todo
+        jsonString(z.array(variableSchema)),
+        z.array(variableSchema),
     ]).optional(),
 
     speed: z.number().optional(),
