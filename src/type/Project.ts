@@ -26,19 +26,22 @@ export const variableSchema = z.strictObject({
     object: entryId.nullable(),
     array: z.array(
         z.strictObject({
-            data: z.string(),
+            key: z.string().regex(/^[0-9a-z]{33}$/).optional(),
+            data: z.union([z.string(), z.number()]).nullable(),
         }),
     ).optional(),
-    isRealTime: z.boolean(),
+    isRealTime: z.boolean().optional(),
     cloudDate: z.literal(false).optional(),
 })
 
 export const messageSchema = z.strictObject({
+    _id: z.hex().length(24).optional(),
     name: z.string(),
     id: entryId,
 })
 
 export const sceneSchema = z.strictObject({
+    _id: z.hex().length(24).optional(),
     name: z.string(),
     id: entryId,
 })

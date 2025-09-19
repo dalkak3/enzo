@@ -6,6 +6,7 @@ import { entryId } from "./util.ts"
 const filename = z.string().regex(/^[0-9a-z]{32}$/)
 
 export const pictureSchema = z.strictObject({
+    _id: z.hex().length(24).optional(),
     id: entryId,
     name: z.string(),
     dimension: z.strictObject({
@@ -16,7 +17,7 @@ export const pictureSchema = z.strictObject({
     }),
     scale: z.number().optional(),
     imageType: z.enum(["png", "svg"]).optional(),
-    fileurl: z.string().optional(),
+    fileurl: z.string().nullable().optional(),
     filename: filename.optional(),
     thumbUrl: z.string().optional(),
 })
@@ -34,6 +35,7 @@ export const soundSchema = z.strictObject({
 const color = z.string().regex(/^#[0-9A-F]{6}|#[0-9a-f]{6}$/)
 
 export const objectSchema = z.strictObject({
+    _id: z.hex().length(24).optional(),
     id: entryId,
     name: z.string(),
     text: z.string().optional(),
@@ -47,15 +49,15 @@ export const objectSchema = z.strictObject({
         direction: z.number().min(0).max(360),
         x: z.number(),
         y: z.number(),
-        regX: z.number().min(0),
-        regY: z.number().min(0),
+        regX: z.number(),
+        regY: z.number(),
         scaleX: z.number().min(0),
         scaleY: z.number().min(0),
         width: z.number().min(0),
         height: z.number().min(0),
         visible: z.boolean(),
         colour: color.optional(),
-        font: z.string().regex(/^(bold )?(italic )?((\d+(\.\d+)?|undefined)px) (|Nanum Gothic|Nanum Myeongjo|Nanum Barun Pen|Nanum Pen Script|NanumSquareRound|MaruBuri|NotoSans|D2 Coding|yg-jalnan|designhouseOTFLight00|DungGeunMo|UhBeemysen|SDComicStencil|SDChildfundkorea|SDCinemaTheater|SDMapssi|SDShabang|SDWoodcarving|SDYongbi)$/).nullable(),
+        font: z.string().regex(/^(bold )?(italic )?((\d+(\.\d+)?|undefined)px) (|Nanum ?Gothic|Nanum Myeongjo|Nanum Barun Pen|Nanum Pen Script|NanumSquareRound|MaruBuri|NotoSans|D2 Coding|yg-jalnan|designhouseOTFLight00|DungGeunMo|UhBeemysen|SDComicStencil|SDChildfundkorea|SDCinemaTheater|SDMapssi|SDShabang|SDWoodcarving|SDYongbi|Nanum Gothic Coding|KoPub Batang)$/).nullable(),
         bgColor: z.union([color, z.literal("transparent")]).optional(),
         textAlign: z.number().optional(),
         lineBreak: z.boolean().optional(),

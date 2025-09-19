@@ -37,11 +37,12 @@ export const blockSchema: z.ZodSchema<Block> = z.lazy(() =>
         copyable: z.boolean().optional(),
         assemble: z.boolean().optional(),
         extensions: z.tuple([]).optional(),
+        comment: commentSchema.optional(),
     })
 )
 
 const commentSchema = z.strictObject({
-    id: entryId,
+    id: entryId.optional(),
     x: z.number(),
     y: z.number(),
     width: z.number().min(0),
@@ -52,7 +53,7 @@ const commentSchema = z.strictObject({
     display: z.boolean(),
     movable: z.boolean(),
     isOpened: z.boolean(),
-    deletable: z.literal(1),
+    deletable: z.literal(1).optional(),
     type: z.literal("comment"),
 })
 
