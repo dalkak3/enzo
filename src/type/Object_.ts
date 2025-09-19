@@ -3,6 +3,8 @@ import { z } from "../../deps/zod.ts"
 import { scriptSchema } from "./Script.ts"
 import { entryId } from "./util.ts"
 
+const filename = z.string().regex(/^[0-9a-z]{32}$/)
+
 export const pictureSchema = z.strictObject({
     id: entryId,
     name: z.string(),
@@ -21,7 +23,7 @@ export const pictureSchema = z.strictObject({
     ]).optional(),
     imageType: z.enum(["png", "svg"]).optional(),
     fileurl: z.string().optional(),
-    filename: z.string().optional(),
+    filename: filename.optional(),
     thumbUrl: z.string().optional(),
 })
 
@@ -30,7 +32,7 @@ export const soundSchema = z.strictObject({
     name: z.string(),
     duration: z.number(),
     fileurl: z.string().optional(),
-    filename: z.string().optional(),
+    filename: filename.optional(),
     ext: z.literal(".mp3").optional(),
 })
 
