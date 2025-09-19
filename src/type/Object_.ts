@@ -36,7 +36,6 @@ export const objectSchema = z.strictObject({
     id: entryId,
     name: z.string(),
     text: z.string().optional(),
-    order: z.number().optional(),
     objectType: z.enum(["sprite", "textBox"]),
     scene: entryId,
     active: z.boolean().optional(),
