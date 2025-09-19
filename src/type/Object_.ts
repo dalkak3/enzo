@@ -43,7 +43,7 @@ export const objectSchema = z.strictObject({
     scene: z.string(),
     active: z.boolean().optional(),
     lock: z.boolean(),
-    rotateMethod: z.string(),
+    rotateMethod: z.enum(["free", "vertical"]),
     entity: z.strictObject({
         rotation: z.number(),
         direction: z.number(),
