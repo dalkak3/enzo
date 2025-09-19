@@ -19,7 +19,7 @@ export const pictureSchema = z.strictObject({
         }),
         z.number(),
     ]).optional(),
-    imageType: z.string().optional(),
+    imageType: z.enum(["png", "svg"]).optional(),
     fileurl: z.string().optional(),
     filename: z.string().optional(),
     thumbUrl: z.string().optional(),

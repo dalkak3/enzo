@@ -44,8 +44,7 @@ export const sceneSchema = z.strictObject({
 
 export const functionSchema = z.strictObject({
     id: entryId,
-    type: z
-        .union([z.literal("normal"), z.literal("value")])
+    type: z.enum(["normal", "value"])
         .optional(),
     localVariables: z
         .array(
@@ -78,7 +77,7 @@ export const projectSchema = z.strictObject({
     interface: z.object({
         menuWidth: z.literal(280).optional(),
         canvasWidth: z.number(),
-        object: z.string(),
+        object: entryId,
     }).optional(),
     expansionBlocks: z.array(z.never()).optional(),
     aiUtilizeBlocks: z.array(z.never()).optional(),
