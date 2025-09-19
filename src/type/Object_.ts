@@ -59,10 +59,7 @@ export const objectSchema = z.strictObject({
         height: z.number().min(0),
         visible: z.boolean(),
         colour: color.optional(),
-        font: z.union([
-            z.string(),
-            z.null(),
-        ]),
+        font: z.string().nullable(),
         bgColor: z.union([color, z.literal("transparent")]).optional(),
         textAlign: z.number().optional(),
         lineBreak: z.boolean().optional(),
