@@ -11,11 +11,12 @@ export const variableSchema = z.strictObject({
         "list",
         "timer",
         "answer",
+        "slide",
     ]),
     id: entryId,
     value: z.union([z.string(), z.number()]).optional(),
-    minValue: z.number().optional(),
-    maxValue: z.number().optional(),
+    minValue: z.union([z.string(), z.number()]).optional(),
+    maxValue: z.union([z.string(), z.number()]).optional(),
     visible: z.boolean(),
     x: z.number(),
     y: z.number(),
@@ -28,7 +29,7 @@ export const variableSchema = z.strictObject({
             data: z.string(),
         }),
     ).optional(),
-    isRealTime: z.literal(false),
+    isRealTime: z.boolean(),
     cloudDate: z.literal(false).optional(),
 })
 
@@ -60,12 +61,33 @@ export const functionSchema = z.strictObject({
     fieldNames: z.array(z.never()).optional(),
 })
 
+export const tableSchema = z.strictObject({
+    _id: z.hex().length(24),
+    id: entryId,
+    chart: z.array(z.never()),
+    data: z.array(z.strictObject({
+        key: z.string().regex(/^[0-9a-z]{33}$/),
+        value: z.array(z.number()),
+    })),
+    fields: z.array(z.string()),
+    name: z.string(),
+    project: z.hex().length(24),
+    user: z.hex().length(24),
+    type: z.literal("user"),
+    updated: z.iso.datetime(),
+    created: z.iso.datetime(),
+    __v: z.literal(0),
+})
+
 export const projectSchema = z.strictObject({
     id: z.hex().length(24).optional(),
     updated: z.iso.datetime().optional(),
     name: z.string().optional(),
     thumb: z.string().regex(/^\/?uploads\/thumb\/[0-9a-f]{4}\/[0-9a-f]{24}\.png$/).optional(),
-    cloudVariable: z.string().optional(),
+    cloudVariable: z.union([
+        z.string(),
+        z.array(z.any()), // todo
+    ]).optional(),
 
     speed: z.number().optional(),
     objects: z.array(objectSchema),
@@ -73,7 +95,7 @@ export const projectSchema = z.strictObject({
     messages: z.array(messageSchema),
     functions: z.array(functionSchema),
     scenes: z.array(sceneSchema),
-    tables: z.array(z.never()),
+    tables: z.array(tableSchema),
     interface: z.object({
         menuWidth: z.literal(280).optional(),
         canvasWidth: z.number().min(0),

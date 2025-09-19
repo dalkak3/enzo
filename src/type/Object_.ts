@@ -22,6 +22,7 @@ export const pictureSchema = z.strictObject({
 })
 
 export const soundSchema = z.strictObject({
+    _id: z.hex().length(24).optional(),
     id: entryId,
     name: z.string(),
     duration: z.number(),
@@ -30,7 +31,7 @@ export const soundSchema = z.strictObject({
     ext: z.literal(".mp3").optional(),
 })
 
-const color = z.string().regex(/^#[0-9A-F]{6}$/)
+const color = z.string().regex(/^#[0-9A-F]{6}|#[0-9a-f]{6}$/)
 
 export const objectSchema = z.strictObject({
     id: entryId,
@@ -40,7 +41,7 @@ export const objectSchema = z.strictObject({
     scene: entryId,
     active: z.boolean().optional(),
     lock: z.boolean(),
-    rotateMethod: z.enum(["free", "vertical"]),
+    rotateMethod: z.enum(["free", "vertical", "none"]),
     entity: z.strictObject({
         rotation: z.number().min(0).max(360),
         direction: z.number().min(0).max(360),
@@ -54,13 +55,14 @@ export const objectSchema = z.strictObject({
         height: z.number().min(0),
         visible: z.boolean(),
         colour: color.optional(),
-        font: z.enum(["undefinedpx ", "20px Nanum Gothic"]).nullable(),
+        font: z.string().regex(/^(bold )?(italic )?((\d+(\.\d+)?|undefined)px) (|Nanum Gothic|Nanum Myeongjo|Nanum Barun Pen|Nanum Pen Script|NanumSquareRound|MaruBuri|NotoSans|D2 Coding|yg-jalnan|designhouseOTFLight00|DungGeunMo|UhBeemysen|SDComicStencil|SDChildfundkorea|SDCinemaTheater|SDMapssi|SDShabang|SDWoodcarving|SDYongbi)$/).nullable(),
         bgColor: z.union([color, z.literal("transparent")]).optional(),
         textAlign: z.number().optional(),
         lineBreak: z.boolean().optional(),
         underLine: z.boolean().optional(),
         strike: z.boolean().optional(),
         text: z.string().optional(),
+        fontSize: z.number().optional(),
     }),
     script: scriptSchema,
     sprite: z.strictObject({
