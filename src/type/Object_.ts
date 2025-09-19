@@ -7,10 +7,10 @@ export const pictureSchema = z.strictObject({
     id: entryId,
     name: z.string(),
     dimension: z.strictObject({
-        width: z.number(),
-        height: z.number(),
-        scaleX: z.number().optional(),
-        scaleY: z.number().optional(),
+        width: z.number().min(0),
+        height: z.number().min(0),
+        scaleX: z.number().min(0).optional(),
+        scaleY: z.number().min(0).optional(),
     }),
     scale: z.union([
         z.strictObject({

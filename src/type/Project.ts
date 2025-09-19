@@ -19,8 +19,8 @@ export const variableSchema = z.strictObject({
     visible: z.boolean(),
     x: z.number(),
     y: z.number(),
-    width: z.number().optional(),
-    height: z.number().optional(),
+    width: z.number().min(0).optional(),
+    height: z.number().min(0).optional(),
     isCloud: z.boolean(),
     object: entryId.nullable(),
     array: z.array(
@@ -76,7 +76,7 @@ export const projectSchema = z.strictObject({
     tables: z.array(z.never()),
     interface: z.object({
         menuWidth: z.literal(280).optional(),
-        canvasWidth: z.number(),
+        canvasWidth: z.number().min(0),
         object: entryId,
     }).optional(),
     expansionBlocks: z.array(z.never()).optional(),
