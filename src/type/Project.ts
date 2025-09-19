@@ -22,7 +22,7 @@ export const variableSchema = z.strictObject({
     width: z.number().optional(),
     height: z.number().optional(),
     isCloud: z.boolean(),
-    object: z.string().nullable(),
+    object: entryId.nullable(),
     array: z.array(
         z.strictObject({
             data: z.string(),
