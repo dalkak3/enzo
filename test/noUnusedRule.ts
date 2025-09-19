@@ -26,10 +26,20 @@ const walk =
 
         return Object.keys(schema.shape)
             .map(k => schema.omit({ [k]: true }))
-    } else if (type == "optional" || type == "array") {
-        const schema = schema_ as z.ZodOptional | z.ZodArray
+    }
+    else if (type == "optional") {
+        const schema = schema_ as z.ZodOptional
+
         return walk(schema.unwrap() as z.ZodType, depth+0)
-    } else {
+            .map(x => z.optional(x))
+    }
+    else if (type == "array") {
+        const schema = schema_ as z.ZodArray
+        
+        return walk(schema.unwrap() as z.ZodType, depth+0) 
+            .map(x => z.array(x))
+    }
+    else {
         return [schema_]
     }
 }
