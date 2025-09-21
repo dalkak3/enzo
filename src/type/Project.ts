@@ -1,6 +1,6 @@
 import { z } from "../../deps/zod.ts"
 
-import { scriptSchema } from "./Script.ts"
+import { Block, scriptSchema } from "./Script.ts"
 import { objectSchema } from "./Object_.ts"
 import { entryId, jsonString } from "./util.ts"
 
@@ -60,7 +60,28 @@ export const functionSchema = z.strictObject({
         )
         .optional(),
     useLocalVariables: z.boolean().optional(),
-    content: jsonString(scriptSchema),
+    content: jsonString(scriptSchema)
+        .refine(blockss => blockss
+            .filter(blocks =>
+                blocks[0].type == "function_create"
+                || blocks[0].type == "function_create_value"
+            )
+            .length == 1
+        , "Function doesn't have exactly 1 head")
+        .refine(blockss => {
+            const blocks = blockss
+                .find(blocks =>
+                    blocks[0].type == "function_create"
+                    || blocks[0].type == "function_create_value"
+                )!
+            if (blocks.length == 1) {
+                // new func style
+                return true
+            } else if (!(blocks[0] as Block).statements?.length) {
+                // old func style
+                return true
+            } else return false
+        }),
     fieldNames: z.array(z.never()).optional(),
 })
 

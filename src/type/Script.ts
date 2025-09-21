@@ -2,7 +2,7 @@ import { z } from "../../deps/zod.ts"
 
 import { entryId } from "./util.ts"
 
-interface Block {
+export interface Block {
     id: string
     x?: number
     y?: number
