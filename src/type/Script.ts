@@ -41,7 +41,7 @@ export const blockSchema: z.ZodSchema<Block> = z.lazy(() =>
     })
 )
 
-const commentSchema = z.strictObject({
+export const commentSchema = z.strictObject({
     id: entryId.optional(),
     x: z.number(),
     y: z.number(),
