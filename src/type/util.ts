@@ -16,3 +16,7 @@ export const jsonString =
         }
     }, schema),
 )
+
+export let stats = {
+    blockTypes: [] as string[]
+}

@@ -1,6 +1,6 @@
 import { z } from "../../deps/zod.ts"
 
-import { entryId } from "./util.ts"
+import { entryId, stats } from "./util.ts"
 
 interface Block {
     id: string
@@ -23,7 +23,12 @@ export const blockSchema: z.ZodSchema<Block> = z.lazy(() =>
         id: entryId,
         x: z.number().optional(),
         y: z.number().optional(),
-        type: z.string().refine(x => x != "comment"),
+        type: z.string()
+            .refine(x => x != "comment")
+            .pipe(z.transform(x => {
+                stats.blockTypes.push(x)
+                return x
+            })),
         params: z.array(
             z.union([blockSchema, z.number(), z.string()]).nullable(),
         ),

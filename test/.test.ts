@@ -1,5 +1,7 @@
 import { projectSchema } from "../src/type/mod.ts"
 import { cases } from "../deps/ente.ts"
+import { stats } from "../src/type/util.ts"
+import { getBlockTypes } from "../src/static/getBlockTypes.ts"
 
 Deno.test("test", () => {
     Object.entries(cases).forEach(([name, project]) => {
@@ -11,4 +13,11 @@ Deno.test("test", () => {
             throw new Error(`Zod validation failed on "${name}"`)
         }
     })
+
+    console.log(stats.blockTypes.length, "blocks")
+    console.log(new Set(stats.blockTypes).size, "block types")
+    Deno.writeTextFileSync(
+        ".log",
+        JSON.stringify(getBlockTypes()),
+    )
 })
